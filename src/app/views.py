@@ -33,7 +33,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
         likes = Count('reaction', filter=Q(reaction__reaction=Reaction.UPVOTE))
         posts = Post.objects.annotate(likes=likes)
-        top_posts = Post.objects.all().order('-created')
+        top_posts = Post.objects.all().order_by('-created')
 
         page = self.paginate_queryset(top_posts)
         if page is not None:
