@@ -10,6 +10,8 @@ to execute the application:
   
 3. run docker compose:
   docker-compse up
+   or as a daemon
+  docker-compse up -d
   
 4. web application:
   a. get all posts 
