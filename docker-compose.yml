@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  db:
+    restart: always
+    image: postgres
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_password
+      - POSTGRES_DB=db_schema
+    command:
+      -c fsync=off
+      -c full_page_writes=off
+      -c wal_writer_delay=20ms
+
+  cache:
+    restart: always
+    image: redis
+
+  web:
+    restart: always
+    build: .
+    #may redefine execution in docker
+    #command: python3 manage.py runserver 0.0.0.0:8000
+    #its better way to separate sources and docker
+    # volumes:
+      # - local_source_path:/home/blog
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - cache
