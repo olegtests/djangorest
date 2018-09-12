@@ -15,5 +15,5 @@ to execute the application:
   a. get all posts 
     http://127.0.0.1:8000/posts
   b. get api description
-    httpL//127.0.0.1:8000/docs
+    http://127.0.0.1:8000/docs
   
