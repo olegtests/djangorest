@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from src.app.models import Post, Reaction
+from app.models import Post, Reaction
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):

@@ -1,11 +1,10 @@
 from django.db.models import Count, Q
-from django.shortcuts import render
 from requests import Response
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 
-from src.app.models import Post, Reaction
-from src.app.serializers import PostSerializer, ReactionSerializer
+from app.models import Post, Reaction
+from app.serializers import PostSerializer, ReactionSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -34,6 +33,7 @@ class PostViewSet(viewsets.ModelViewSet):
         likes = Count('reaction', filter=Q(reaction__reaction=Reaction.UPVOTE))
         posts = Post.objects.annotate(likes=likes)
         top_posts = Post.objects.all().order_by('-created')
+        # top_posts = Post.objects.all().order_by('-created')
 
         page = self.paginate_queryset(top_posts)
         if page is not None:
