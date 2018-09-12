@@ -1,5 +1,5 @@
 # djangorest
-solution django RestApi with docker 
+solution django RestApi with docker and docker-compose
 
 to execute the application:
 1. download sources:
