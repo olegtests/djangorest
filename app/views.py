@@ -1,4 +1,5 @@
 from django.db.models import Count, Q
+from django.http import HttpResponse
 from requests import Response
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -28,17 +29,13 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(detail=False)
     def top(self, request):
         """Get list of top posts"""
-        # add aggrigation  :: post.reaction__set_.filter
 
         likes = Count('reaction', filter=Q(reaction__reaction=Reaction.UPVOTE))
-        posts = Post.objects.annotate(likes=likes)
-        top_posts = Post.objects.all().order_by('-created')
-        # top_posts = Post.objects.all().order_by('-created')
+        top_posts = Post.objects.annotate(likes=likes).order_by('-created')
+        serializer = self.get_serializer(top_posts, many=True)
 
         page = self.paginate_queryset(top_posts)
         if page is not None:
-            serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(top_posts, many=True)
-        return Response(serializer.data)
+        return HttpResponse(serializer.data)
